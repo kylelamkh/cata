@@ -1,38 +1,156 @@
-.App {
-  text-align: center;
+.card {
+	background-color: rgb(255, 207, 207);
+	cursor: pointer;
+	position: absolute;
+	box-shadow: 0px 6px 17px -2px #303030;
+	border-radius: 8px;
+	width: 375px;
+	height: 667px;
+	display: flex;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+#top {
+	z-index: 999;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+#bottom {
+	z-index: -999;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: inherit;
+	position: relative;
 }
 
-.App-link {
-  color: #61dafb;
+.grid-container {
+	position: absolute;
+	height: inherit;
+	width: inherit;
+	display: grid;
+	grid-template-rows: 1fr min-content min-content;
+	grid-template-columns: repeat(3, 1fr);
+	justify-items: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.likeIcon {
+	display: block;
+	grid-row: 1/2;
+	grid-column: 1/2;
+	position: relative;
+	height: max-content;
+	font-size: 2rem;
+	padding: 0.1rem 0.5rem;
+	color: var(--like-color);
+	border: 5px solid var(--like-color);
+	border-radius: 10px;
+	transform: rotate(-25deg);
+	margin-top: 1.5rem;
+	font-weight: 500;
+}
+
+.nopeIcon {
+	display: block;
+	grid-row: 1/2;
+	grid-column: 3/4;
+	position: relative;
+	height: max-content;
+	font-size: 2rem;
+	padding: 0.1rem 0.5rem;
+	color: var(--nope-color);
+	border: 5px solid var(--nope-color);
+	border-radius: 10px;
+	transform: rotate(25deg);
+	margin-top: 1.5rem;
+	font-weight: 500;
+}
+
+.superLikeIcon {
+	display: block;
+	grid-row: 2/3;
+	grid-column: 1/-1;
+	position: relative;
+	height: max-content;
+	font-size: 2rem;
+	padding: 0.1rem 0.5rem;
+	color: var(--superlike-color);
+	border: 5px solid var(--superlike-color);
+	border-radius: 10px;
+	transform: rotate(-30deg);
+	margin-bottom: 1.5rem;
+	font-weight: 500;
+}
+
+.controls {
+	grid-row: 3/4;
+	grid-column: 1/-1;
+	width: inherit;
+	display: grid;
+	grid-template-columns: 1fr 3fr 1fr;
+	justify-items: center;
+	border-radius: 0 0 8px 8px;
+	background-image: linear-gradient(to top, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.75) 35%, rgba(0, 0, 0, 0) 100%);
+}
+
+.buttons {
+	grid-column: 2/3;
+	margin-top: auto;
+	padding-top: 8%;
+	padding-bottom: 10px;
+	display: flex;
+	align-items: center;
+}
+
+.button {
+	height: 3.75rem;
+	width: 3.75rem;
+	border-radius: 50%;
+	margin: 0 1rem;
+	position: relative;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+#nopeBtn {
+	border: 2px solid var(--nope-color);
+}
+
+#nope {
+	color: var(--nope-color);
+	font-size: 2.5rem;
+}
+
+#nope:hover {
+	font-size: 3.25rem;
+}
+
+#superLikeBtn {
+	height: 3rem;
+	width: 3rem;
+	border: 2px solid var(--superlike-color);
+}
+
+#superLike {
+	color: var(--superlike-color);
+	font-size: 2rem;
+}
+
+#superLike:hover {
+	font-size: 3.25rem;
+}
+
+#likeBtn {
+	border: 2px solid var(--like-color);
+}
+
+#like {
+	color: var(--like-color);
+	font-size: 2.5rem;
+}
+
+#like:hover {
+	font-size: 3.25rem;
 }
