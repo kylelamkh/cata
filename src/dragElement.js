@@ -22,30 +22,33 @@ function dragElement(elmnt) {
 	const likeBtn = document.getElementById('like')
 
 	elmnt.onmousedown = dragMouseDown
+	elmnt.ontouchstart = dragMouseDown
 
 	function dragMouseDown(e) {
 		e = e || window.event
 		e.preventDefault()
 		// get the mouse cursor position at startup:
-		pos3 = e.clientX
-		pos4 = e.clientY
+		pos3 = e.clientX || e.targetTouches[0].pageX
+		pos4 = e.clientY || e.targetTouches[0].pageY
 
 		if (pos4 > screenMid) upper = false
 		else upper = true
 
 		document.onmouseup = closeDragElement
+		document.ontouchend = closeDragElement
 		// call a function whenever the cursor moves:
 		document.onmousemove = elementDrag
+		document.ontouchmove = elementDrag
 	}
 
 	function elementDrag(e) {
 		e = e || window.event
 		e.preventDefault()
 		// calculate the new cursor position:
-		pos1 = pos3 - e.clientX
-		pos2 = pos4 - e.clientY
-		pos3 = e.clientX
-		pos4 = e.clientY
+		pos1 = pos3 - (e.clientX || e.targetTouches[0].pageX)
+		pos2 = pos4 - (e.clientY || e.targetTouches[0].pageY)
+		pos3 = e.clientX || e.targetTouches[0].pageX
+		pos4 = e.clientY || e.targetTouches[0].pageY
 		// set the element's new position:
 		let top = elmnt.offsetTop - pos2
 		let left = elmnt.offsetLeft - pos1
@@ -114,6 +117,8 @@ function dragElement(elmnt) {
 		// stop moving when mouse button is released:
 		document.onmouseup = null
 		document.onmousemove = null
+		document.ontouchend = null
+		document.ontouchmove = null
 		elmnt.removeAttribute('style')
 	}
 }
