@@ -41,9 +41,15 @@ function Controls(props) {
 	const handleClick = (evt) => {
 		try {
 			let element = evt.target
+			let id = element.id
 			element.style = null
 			element = element.parentNode
 			element.style = null
+			console.log(id)
+			props.setState(() => props.naturalState)
+			props.setState((prevState) => {
+				return { ...prevState, [id]: true }
+			})
 			props.setIsBtnClicked(() => true)
 		} catch (e) {
 			console.error(e)
