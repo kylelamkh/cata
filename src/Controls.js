@@ -45,7 +45,7 @@ function Controls(props) {
 			element.style = null
 			element = element.parentNode
 			element.style = null
-			console.log(id)
+			//console.log(id)
 			props.setState(() => props.naturalState)
 			props.setState((prevState) => {
 				return { ...prevState, [id]: true }
