@@ -42,8 +42,14 @@ function dragElement(elmnt) {
 	}
 
 	function elementDrag(e) {
+		function preventBehavior(e) {
+			e.preventDefault()
+		}
+
+		document.addEventListener('touchmove', preventBehavior, { passive: false })
 		e = e || window.event
-		e.preventDefault()
+		e.preventDefault(e)
+		console.log(e)
 		// calculate the new cursor position:
 		pos1 = pos3 - (e.clientX || e.targetTouches[0].pageX)
 		pos2 = pos4 - (e.clientY || e.targetTouches[0].pageY)
