@@ -1,10 +1,10 @@
 :root {
 	--like-color: rgb(0, 255, 157);
-	--like-sub-color: rgb(130, 253, 206);
+	--like-sub-color: rgb(0, 255, 157, 0.35);
 	--nope-color: rgb(224, 19, 98);
-	--nope-sub-color: rgb(250, 141, 183);
-	--superlike-color: rgb(45, 162, 240);
-	--superlike-sub-color: rgb(118, 185, 230);
+	--nope-sub-color: rgb(224, 19, 98, 0.35);
+	--superLike-color: rgb(45, 162, 240);
+	--superLike-sub-color: rgb(45, 162, 240, 0.35);
 }
 
 body {
@@ -24,6 +24,15 @@ code {
 }
 
 .container {
-	margin: 10vh auto;
-	width: 375px;
+	margin: 1vh auto;
+	height: calc(95vw * 16 / 9);
+	width: 95vw;
+}
+
+@media screen and (min-width: 450px) {
+	.container {
+		margin: 10vh auto;
+		height: 667px;
+		width: 375px;
+	}
 }

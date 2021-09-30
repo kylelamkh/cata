@@ -1,15 +1,20 @@
 import ReactTestUtils from 'react-dom/test-utils'
 
-function dragElement(elmnt, state) {
+function dragElement(elmnt) {
 	let pos1 = 0
 	let pos2 = 0
 	let pos3 = 0
 	let pos4 = 0
 	let upper = true
-	console.log('On function called: ' + JSON.stringify(state))
+	let isLeftRight = false
+	let localState = {
+		nope: false,
+		like: false,
+		superLike: false,
+	}
 
-	const originalLeft = (window.innerWidth - 375) / 2
-	const originalTop = window.innerHeight * 0.1
+	const originalLeft = elmnt.offsetLeft
+	const originalTop = elmnt.offsetTop
 	const screenMid = window.innerHeight / 2
 
 	const nopeBtn = document.getElementById('nope')
@@ -18,8 +23,7 @@ function dragElement(elmnt, state) {
 
 	elmnt.onmousedown = dragMouseDown
 
-	function dragMouseDown(e, state) {
-		console.log('On mouse down: ' + JSON.stringify(state))
+	function dragMouseDown(e) {
 		e = e || window.event
 		e.preventDefault()
 		// get the mouse cursor position at startup:
@@ -35,7 +39,6 @@ function dragElement(elmnt, state) {
 	}
 
 	function elementDrag(e) {
-		console.log('On drag: ' + JSON.stringify(state))
 		e = e || window.event
 		e.preventDefault()
 		// calculate the new cursor position:
@@ -53,42 +56,65 @@ function dragElement(elmnt, state) {
 		elmnt.style.left = left + 'px'
 		elmnt.style.transform = 'rotate(' + 0.05 * rotateDegree + 'deg)'
 
-		if (originalLeft - left > 35) {
+		if (left < originalLeft - 35) {
+			isLeftRight = true
+			localState.nope = true
 			ReactTestUtils.Simulate.mouseEnter(nopeBtn)
-		} else {
-			//ReactTestUtils.Simulate.mouseLeave(nopeBtn)
-			//ReactTestUtils.Simulate.mouseLeave(superLikeBtn)
+		} else if (originalLeft > left) {
+			localState.nope = false
+			ReactTestUtils.Simulate.mouseLeave(nopeBtn)
 		}
 
-		if (left - originalLeft > 35) {
+		if (left > originalLeft + 35) {
+			isLeftRight = true
+			localState.like = true
 			ReactTestUtils.Simulate.mouseEnter(likeBtn)
-		} else {
-			//ReactTestUtils.Simulate.mouseLeave(likeBtn)
-			//ReactTestUtils.Simulate.mouseLeave(superLikeBtn)
+		} else if (originalLeft < left) {
+			localState.like = false
+			ReactTestUtils.Simulate.mouseLeave(likeBtn)
 		}
 
-		if (!(state.nope || state.like)) {
-			if (originalTop - top > 30) {
+		if (!isLeftRight) {
+			if (top < originalTop - 30) {
+				localState.superLike = true
 				ReactTestUtils.Simulate.mouseEnter(superLikeBtn)
-				// 	ReactTestUtils.Simulate.mouseLeave(nopeBtn)
-				// 	ReactTestUtils.Simulate.mouseLeave(likeBtn)
+			} else if (originalTop > top) {
+				localState.superLike = false
+				ReactTestUtils.Simulate.mouseLeave(superLikeBtn)
 			}
-		} else {
-			// 	ReactTestUtils.Simulate.mouseLeave(superLikeBtn)
 		}
 	}
 
 	function closeDragElement() {
+		if (localState.like) {
+			ReactTestUtils.Simulate.click(likeBtn)
+		} else if (localState.nope) {
+			ReactTestUtils.Simulate.click(nopeBtn)
+		} else if (localState.superLike) {
+			ReactTestUtils.Simulate.click(superLikeBtn)
+		} else {
+			ReactTestUtils.Simulate.mouseLeave(likeBtn)
+			ReactTestUtils.Simulate.mouseLeave(nopeBtn)
+			ReactTestUtils.Simulate.mouseLeave(superLikeBtn)
+		}
+		localState = {
+			nope: false,
+			like: false,
+			superLike: false,
+		}
+		try {
+			let style = document.getElementById('top').getAttribute('style')
+			const elemt = document.getElementById('discard')
+			elemt.setAttribute('style', style)
+		} catch {}
 		elmnt.style.top = originalTop + 'px'
 		elmnt.style.left = originalLeft + 'px'
 		elmnt.style.transform = 'rotate(0deg)'
+		isLeftRight = false
 		// stop moving when mouse button is released:
 		document.onmouseup = null
 		document.onmousemove = null
 		elmnt.removeAttribute('style')
-		ReactTestUtils.Simulate.mouseLeave(nopeBtn)
-		ReactTestUtils.Simulate.mouseLeave(likeBtn)
-		ReactTestUtils.Simulate.mouseLeave(superLikeBtn)
 	}
 }
 
