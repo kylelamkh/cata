@@ -103,7 +103,7 @@ img {
 	z-index: 999;
 	width: inherit;
 	position: absolute;
-	margin-top: calc(96vw * 16 / 9 - 120px);
+	margin-top: calc(90vh - 120px);
 }
 
 .controls {
